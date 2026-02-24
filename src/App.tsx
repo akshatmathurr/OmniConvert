@@ -30,26 +30,8 @@ export default function App() {
 
   return (
     <div className="flex flex-col h-screen max-w-md mx-auto bg-transparent relative font-sans">
-      {/* Simulated iOS Status Bar */}
-      <div className="fixed top-0 left-0 right-0 h-12 flex items-center justify-between px-8 z-[60] pointer-events-none text-slate-900">
-        <span className="text-sm font-bold">9:41</span>
-        <div className="flex items-center gap-1.5">
-          <div className="flex gap-0.5 items-end h-3">
-            <div className="w-0.5 h-[30%] bg-current rounded-full" />
-            <div className="w-0.5 h-[50%] bg-current rounded-full" />
-            <div className="w-0.5 h-[70%] bg-current rounded-full" />
-            <div className="w-0.5 h-[100%] bg-current rounded-full" />
-          </div>
-          <span className="text-[10px] font-bold">5G</span>
-          <div className="w-6 h-3 rounded-[4px] border border-current/30 relative ml-1">
-            <div className="absolute inset-[1.5px] bg-current rounded-[1px] w-[80%]" />
-            <div className="absolute -right-[3px] top-1/2 -translate-y-1/2 w-[2px] h-[4px] bg-current/30 rounded-r-full" />
-          </div>
-        </div>
-      </div>
-
       {/* Main Content Area */}
-      <main className="flex-1 overflow-y-auto no-scrollbar pt-12 pb-32">
+      <main className="flex-1 overflow-y-auto no-scrollbar pt-4 pb-32">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -79,7 +61,7 @@ export default function App() {
       </main>
 
       {/* Bottom Navigation Bar */}
-      <nav className="fixed bottom-8 left-4 right-4 z-50">
+      <nav className="fixed bottom-4 left-4 right-4 z-50 pb-safe">
         <div className="glass rounded-[2.5rem] p-2 flex items-center justify-between shadow-2xl shadow-black/10">
           {tabs.map((tab) => {
             const Icon = tab.icon;

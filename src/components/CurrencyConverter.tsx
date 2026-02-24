@@ -62,55 +62,65 @@ function CurrencyPicker({ onSelect, onClose, title }: CurrencyPickerProps) {
 
   return (
     <motion.div 
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/40 backdrop-blur-sm"
+      onClick={onClose}
     >
-      <div className="glass w-full max-w-sm rounded-[2.5rem] overflow-hidden flex flex-col max-h-[80vh]">
-        <div className="p-6 border-b border-white/20 flex items-center justify-between">
-          <h3 className="text-xl font-bold">{title}</h3>
-          <button onClick={onClose} className="p-2 hover:bg-white/20 rounded-full transition-colors">
-            <X className="w-5 h-5" />
+      <motion.div 
+        initial={{ y: '100%' }}
+        animate={{ y: 0 }}
+        exit={{ y: '100%' }}
+        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+        className="glass w-full max-w-md rounded-t-[2.5rem] sm:rounded-[2.5rem] overflow-hidden flex flex-col max-h-[85vh] shadow-2xl border-white/30"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="p-6 flex items-center justify-between">
+          <h3 className="text-xl font-black tracking-tight text-slate-800">{title}</h3>
+          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full text-slate-400 hover:text-slate-600 transition-colors">
+            <X className="w-4 h-4" />
           </button>
         </div>
         
-        <div className="p-4">
+        <div className="px-6 pb-4">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input 
               autoFocus
               type="text"
-              placeholder="Search currency or code"
+              placeholder="Search currency or code..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-white/40 border-none rounded-2xl py-3 pl-10 pr-4 outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all font-medium"
+              className="w-full bg-white/60 border border-white/50 rounded-2xl py-4 pl-11 pr-4 outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all font-bold text-slate-700 placeholder:text-slate-400"
             />
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-2 no-scrollbar">
-          {filteredCurrencies.map((c) => (
-            <button
-              key={c.code}
-              onClick={() => {
-                onSelect(c.code);
-                onClose();
-              }}
-              className="w-full flex items-center gap-3 p-4 hover:bg-white/30 rounded-2xl transition-colors text-left"
-            >
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-xl">
-                {c.flag}
-              </div>
-              <div>
-                <div className="font-bold text-slate-800">{c.code}</div>
-                <div className="text-xs text-slate-500">{c.name}</div>
-              </div>
-              <div className="ml-auto font-bold text-emerald-600">{c.symbol}</div>
-            </button>
-          ))}
+        <div className="flex-1 overflow-y-auto px-4 pb-8 no-scrollbar">
+          <div className="space-y-2">
+            {filteredCurrencies.map((c) => (
+              <button
+                key={c.code}
+                onClick={() => {
+                  onSelect(c.code);
+                  onClose();
+                }}
+                className="w-full flex items-center gap-4 p-4 bg-white/40 hover:bg-white/60 rounded-2xl transition-all text-left group border border-white/20 hover:border-white/40"
+              >
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center text-xl shadow-sm group-hover:scale-110 transition-transform border border-emerald-100">
+                  {c.flag}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-black text-slate-800 truncate">{c.code}</div>
+                  <div className="text-[10px] font-bold text-slate-600 uppercase tracking-widest truncate">{c.name}</div>
+                </div>
+                <div className="font-black text-emerald-600 text-lg">{c.symbol}</div>
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -212,7 +222,7 @@ export default function CurrencyConverter({
             onClick={() => setPickerMode('from')}
             className="flex-1 bg-white/50 hover:bg-white/70 rounded-2xl p-4 flex flex-col items-center gap-1 transition-all group border border-white/20"
           >
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">From</span>
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">From</span>
             <div className="flex items-center gap-2">
               <span className="text-xl">{fromInfo?.flag}</span>
               <span className="text-lg font-black text-slate-800">{fromCurrency}</span>
@@ -234,7 +244,7 @@ export default function CurrencyConverter({
             onClick={() => setPickerMode('to')}
             className="flex-1 bg-white/50 hover:bg-white/70 rounded-2xl p-4 flex flex-col items-center gap-1 transition-all group border border-white/20"
           >
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">To</span>
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">To</span>
             <div className="flex items-center gap-2">
               <span className="text-xl">{toInfo?.flag}</span>
               <span className="text-lg font-black text-slate-800">{toCurrency}</span>
